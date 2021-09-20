@@ -30,9 +30,12 @@ export class ClientesFormComponent implements OnInit {
      .subscribe( params => {
        if (params && params['id'] ){
          this.service.getClienteById(params.id)
-         .subscribe(
-         response => this.cliente = response,
-         errorResponse => this.cliente = new Cliente
+        .subscribe(
+         response => {
+          this.cliente = response,
+          console.log(this.cliente)  
+         },  
+            errorResponse => this.cliente = new Cliente
           )}
       })
   }

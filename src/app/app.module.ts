@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule} from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,8 @@ import { ClientesModule } from './clientes/clientes.module';
 import { ClientesService } from './clientes.service';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './layout/layout.component'
+import { AuthService } from './auth.service';
+import { TokenInterceptor } from './token.interceptor';
 
 
 @NgModule({
@@ -29,7 +31,13 @@ import { LayoutComponent } from './layout/layout.component'
     ClientesModule
   ],
   providers: [
-    ClientesService
+    ClientesService, 
+    AuthService,
+    { // configuração para usar o token.interceptor 
+      provide : HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
